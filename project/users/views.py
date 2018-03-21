@@ -84,15 +84,16 @@ def logout():
 @login_required
 @ensure_correct_user
 def edit(id):
+    found_user = User.query.get_or_404(id)
     return render_template(
-        'users/edit.html', form=UserForm(), user=User.query.get(id))
+        'users/edit.html', form=UserForm(), user=found_user)
 
-
+########################### MODIFIES FOLLOWING/FOLLOWER RELATIONSHIP ######################
 @users_blueprint.route(
     '/<int:follower_id>/follower', methods=['POST', 'DELETE'])
 @login_required
 def follower(follower_id):
-    followed = User.query.get(follower_id)
+    followed = User.query.get_or_404(follower_id)
     if request.method == 'POST':
         current_user.following.append(followed)
     else:
@@ -101,22 +102,26 @@ def follower(follower_id):
     db.session.commit()
     return redirect(url_for('users.following', id=current_user.id))
 
+###################### DISPLAY ALL PEOPLE I FOLLOW ######################
+
 
 @users_blueprint.route('/<int:id>/following', methods=['GET'])
 @login_required
 def following(id):
     return render_template('users/following.html', user=User.query.get(id))
 
+###################### DISPLAY ALL MY FOLLOWERS ######################
 
 @users_blueprint.route('/<int:id>/followers', methods=['GET'])
 @login_required
 def followers(id):
-    return render_template('users/followers.html', user=User.query.get(id))
+    found_user = User.query.get_or_404(id)
+    return render_template('users/followers.html', user=found_user)
 
 
 @users_blueprint.route('/<int:id>', methods=["GET", "PATCH", "DELETE"])
 def show(id):
-    found_user = User.query.get(id)
+    found_user = User.query.get_or_404(id)
     if (request.method == 'GET' or current_user.is_anonymous
             or current_user.get_id() != str(id)):
         return render_template('users/show.html', user=found_user)

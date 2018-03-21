@@ -21,6 +21,7 @@ app.config['SQLALCHEMY_ECHO'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or "it's a secret"
 toolbar = DebugToolbarExtension(app)
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 modus = Modus(app)
 bcrypt = Bcrypt(app)
@@ -49,6 +50,14 @@ def root():
     messages = Message.query.order_by("timestamp asc").limit(100).all()
     return render_template('home.html', messages=messages)
 
+########################################################################
+#### ADD 404 HANDLER HERE
+#modify all views.py in our users, messages
+@app.errorhandler(404)
+def page_not_found(e):
+    '''Renders template for 404 error'''
+    return render_template('404.html'), 404
+########################################################################
 
 @app.after_request
 def add_header(r):
@@ -61,3 +70,4 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
+

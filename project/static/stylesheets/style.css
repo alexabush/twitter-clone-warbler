@@ -188,8 +188,8 @@ nav + .container {
 }
 
 #warbler-hero {
-  /* background-image: url('/static/images/warbler-hero.jpg'); */
-  background-image: url('https://imagesvc.timeincapp.com/v3/fan/image?url=https%3A%2F%2Fwinteriscoming.net%2Ffiles%2F2017%2F04%2Fcastle-black-the-wall-game-of-thrones.jpg');
+  background-image: url('/static/images/warbler-hero.jpg');
+  /* background-image: url('https://imagesvc.timeincapp.com/v3/fan/image?url=https%3A%2F%2Fwinteriscoming.net%2Ffiles%2F2017%2F04%2Fcastle-black-the-wall-game-of-thrones.jpg'); */
   height: 360px;
   margin-top: -16px;
   opacity: 0.7;

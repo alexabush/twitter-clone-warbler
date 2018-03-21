@@ -108,7 +108,8 @@ def follower(follower_id):
 @users_blueprint.route('/<int:id>/following', methods=['GET'])
 @login_required
 def following(id):
-    return render_template('users/following.html', user=User.query.get(id))
+    found_user = User.query.get_or_404(id)
+    return render_template('users/following.html', user=found_user)
 
 ###################### DISPLAY ALL MY FOLLOWERS ######################
 

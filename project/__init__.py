@@ -4,6 +4,7 @@ from flask_modus import Modus
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_migrate import Migrate
 import os
 
 app = Flask(__name__)
@@ -25,6 +26,8 @@ modus = Modus(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
 
 from project.users.views import users_blueprint
 from project.messages.views import messages_blueprint

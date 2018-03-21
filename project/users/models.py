@@ -16,14 +16,16 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Text, unique=True)
+    first_name = db.Column(db.Text)
+    last_name = db.Column(db.Text)
     username = db.Column(db.Text, unique=True)
     image_url = db.Column(db.Text)
     header_image_url = db.Column(db.Text)
     bio = db.Column(db.Text)
     location = db.Column(db.Text)
     password = db.Column(db.Text)
-    messages = db.relationship('Message', backref='user', lazy='dynamic')
-    followers = db.relationship(
+    messages = db.relationship('Message', backref='user', lazy='dynamic') #one-to-many
+    followers = db.relationship( #many-to-many, making link between two rows in the same table
         "User",
         secondary=FollowersFollowee,
         primaryjoin=(FollowersFollowee.c.follower_id == id),
@@ -39,7 +41,9 @@ class User(db.Model, UserMixin):
         self.email = email
         self.username = username
         self.image_url = image_url
-        self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
+        self.password = bcrypt.generate_password_hash(password).decode('UTF-8') #hashing is taken care of here
+
+#### instance methods on user class ##########################
 
     def __repr__(self):
         return f"#{self.id}: email: {self.email} - username: {self.username}"
@@ -49,6 +53,8 @@ class User(db.Model, UserMixin):
 
     def is_following(self, user):
         return bool(self.following.filter_by(id=user.id).first())
+
+##################################################################
 
     @classmethod
     def authenticate(cls, username, password):

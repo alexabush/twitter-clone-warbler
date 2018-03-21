@@ -37,10 +37,12 @@ class User(db.Model, UserMixin):
                  email,
                  username,
                  password,
-                 image_url='/static/images/default-pic.png'):
+                 image_url='/static/images/default-pic.png',
+                 header_image_url='/static/images/warbler-hero.jpg'):
         self.email = email
         self.username = username
         self.image_url = image_url
+        self.header_image_url = header_image_url
         self.password = bcrypt.generate_password_hash(password).decode('UTF-8') #hashing is taken care of here
 
 #### instance methods on user class ##########################

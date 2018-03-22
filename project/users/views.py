@@ -93,7 +93,7 @@ def logout():
 def edit(id):
     found_user = User.query.get_or_404(id)
     return render_template(
-        'users/edit.html', form=EditUserForm(), user=found_user)
+        'users/edit.html', form=EditUserForm(obj=current_user), user=found_user)
 
 ########################### MODIFIES FOLLOWING/FOLLOWER RELATIONSHIP ######################
 @users_blueprint.route(

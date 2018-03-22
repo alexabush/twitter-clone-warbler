@@ -29,6 +29,9 @@
           </div>
           <p class="single-message">{{ message.text }}</p>
           <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
+          <form method="POST" action="{{url_for('messages.like', id=current_user.id, message_id=message.id)}}">
+            <input type="submit" value="Like">
+          </form>
         </div>
       </li>
     </ul>

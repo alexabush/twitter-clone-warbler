@@ -1,13 +1,16 @@
 from project import db, bcrypt
 from flask_login import UserMixin
 
-FollowersFollowee = db.Table(
-    'follows', db.Column('id', db.Integer, primary_key=True),
-    db.Column('followee_id', db.Integer,
-              db.ForeignKey('users.id', ondelete="cascade")),
-    db.Column('follower_id', db.Integer,
-              db.ForeignKey('users.id', ondelete="cascade")),
+FollowersFollowee = db.Table('follows',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('followee_id', db.Integer, db.ForeignKey('users.id', ondelete="cascade")),
+    db.Column('follower_id', db.Integer, db.ForeignKey('users.id', ondelete="cascade")),
     db.CheckConstraint('follower_id != followee_id', name="no_self_follow"))
+
+UserLikesMessages = db.Table('likes',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete="cascade")),
+    db.Column('message_id', db.Integer, db.ForeignKey('messages.id', ondelete="cascade")))
 
 
 class User(db.Model, UserMixin):
@@ -25,6 +28,11 @@ class User(db.Model, UserMixin):
     location = db.Column(db.Text)
     password = db.Column(db.Text)
     messages = db.relationship('Message', backref='user', lazy='dynamic') #one-to-many
+    likes = db.relationship(
+        'Message',
+        secondary=UserLikesMessages, #one-to-many
+        backref=db.backref('liked', lazy='dynamic'),
+        lazy='dynamic')
     followers = db.relationship( #many-to-many, making link between two rows in the same table
         "User",
         secondary=FollowersFollowee,

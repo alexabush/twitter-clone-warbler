@@ -132,8 +132,7 @@ def show(id):
     found_user = User.query.get_or_404(id)
     if (request.method == 'GET' or current_user.is_anonymous
             or current_user.get_id() != str(id)):
-        num_likes = len(found_user.likes.all())
-        return render_template('users/show.html', user=found_user, num_likes=num_likes)
+        return render_template('users/show.html', user=found_user)
     if request.method == b"PATCH":
         edit_user_form = EditUserForm(request.form)
         if edit_user_form.validate():

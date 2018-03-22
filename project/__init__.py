@@ -48,10 +48,11 @@ def load_user(id):
 #but .all() turns the queryObject into a proper python list, which is a little easier to understand
 @app.route('/')
 def root():
-
+    ''''Renders home.html, passes in list of messages from logged in user and users our logged in user
+        is following. List is sorted in descending order by timestamp and contains 100 messages maximum
+    '''    
     followee_ids = [f.id for f in User.query.get(current_user.id).following.all()] + [current_user.id]
-    # messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100)
-    messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100).all()
+    messages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100).all()
     return render_template('home.html', messages=messages)
 
 ########################################################################

@@ -43,9 +43,10 @@ def show(id, message_id):
 @ensure_correct_user
 def like(id, message_id):
     message = Message.query.get_or_404(message_id)
+    # from IPython import embed; embed()
     if request.method == "POST":
         current_user.likes.append(message)
-    if request.method == "DELETE":
+    if request.method == b"DELETE":
         current_user.likes.remove(message)
     db.session.add(current_user)
     db.session.commit()

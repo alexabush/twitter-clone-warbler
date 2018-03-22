@@ -13,6 +13,13 @@ UserLikesMessages = db.Table('likes',
     db.Column('message_id', db.Integer, db.ForeignKey('messages.id', ondelete="cascade")))
 
 
+# class UserLikesMessages(db.Model)
+#     id = db.Column 
+#     user_id =
+#     message_id =
+
+
+
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
@@ -64,6 +71,12 @@ class User(db.Model, UserMixin):
     def is_following(self, user):
         return bool(self.following.filter_by(id=user.id).first())
 
+    def likes_message(self, message_id):
+        return bool(self.likes.filter_by(id=message_id).first())
+
+#put this in message model
+    def is_liked_by(self, user_id):
+        return bool(self.liked.filter_by(id=user_id).first())
 ##################################################################
 
     @classmethod

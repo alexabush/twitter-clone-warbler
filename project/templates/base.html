@@ -27,6 +27,9 @@
   <link
     rel="shortcut icon"
     href="{{ url_for('static', filename='favicon.ico') }}">
+
+  {# Client Side JS here #}
+  <script src=""></script>
 </head>
 
 {% if request.endpoint == 'users.signup' or request.endpoint == 'users.login' %}

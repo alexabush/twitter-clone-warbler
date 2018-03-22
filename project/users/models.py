@@ -12,14 +12,6 @@ UserLikesMessages = db.Table('likes',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete="cascade")),
     db.Column('message_id', db.Integer, db.ForeignKey('messages.id', ondelete="cascade")))
 
-
-# class UserLikesMessages(db.Model)
-#     id = db.Column 
-#     user_id =
-#     message_id =
-
-
-
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'

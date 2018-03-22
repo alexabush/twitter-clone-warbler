@@ -38,7 +38,7 @@
     <ul class="list-group" id="messages">
       {% for message in messages %}
       <li class="list-group-item">
-        <!-- <a href="{{ url_for('messages.show', id=message.user.id, message_id=message.id ) }}" class="message-link"/> -->
+        {# <a href="{{ url_for('messages.show', id=message.user.id, message_id=message.id ) }}" class="message-link"/> #}
         <a href="{{ url_for('messages.show', id=message.user.id, message_id=message.id ) }}" class=""/>
         <a href="{{ url_for('users.show', id=message.user.id) }}">
           <img src="{{ message.user.image_url }}" alt="" class="timeline-image">

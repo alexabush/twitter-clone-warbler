@@ -20,14 +20,21 @@ def ensure_correct_user(fn):
     return wrapper
 
 
-@users_blueprint.route('/', methods=["GET"])
+@users_blueprint.route('/')
 def index():
     search = request.args.get('q')
+    # from IPython import embed; embed()
+    # print('im in get')
     users = None
     if search is None or search == '':
+        # print('search none or empty str')
+        # from IPython import embed; embed()
         users = User.query.all()
     else:
+        # print('else')
+        # from IPython import embed; embed()
         users = User.query.filter(User.username.like("%%%s%%" % search)).all()
+        # from IPython import embed; embed()
     return render_template('users/index.html', users=users)
 
 

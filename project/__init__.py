@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_modus import Modus
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 import os
@@ -44,10 +44,14 @@ app.register_blueprint(
 def load_user(id):
     return User.query.get(int(id))
 
-
+#NOTe: the .all() is not neccesary in the code below, since queryObjects are iterable
+#but .all() turns the queryObject into a proper python list, which is a little easier to understand
 @app.route('/')
 def root():
-    messages = Message.query.order_by("timestamp asc").limit(100).all()
+
+    followee_ids = [f.id for f in User.query.get(current_user.id).following.all()] + [current_user.id]
+    # messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100)
+    messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100).all()
     return render_template('home.html', messages=messages)
 
 ########################################################################

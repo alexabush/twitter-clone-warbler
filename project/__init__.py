@@ -31,6 +31,7 @@ migrate = Migrate(app, db)
 
 
 from project.users.views import users_blueprint
+from flask import jsonify
 from project.messages.views import messages_blueprint
 from project.users.models import User
 from project.messages.models import Message
@@ -48,10 +49,11 @@ def load_user(id):
 #but .all() turns the queryObject into a proper python list, which is a little easier to understand
 @app.route('/')
 def root():
-
+    ''''Renders home.html, passes in list of messages from logged in user and users our logged in user
+        is following. List is sorted in descending order by timestamp and contains 100 messages maximum
+    '''    
     followee_ids = [f.id for f in User.query.get(current_user.id).following.all()] + [current_user.id]
-    # messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100)
-    messsages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100).all()
+    messages = Message.query.filter(Message.user_id.in_(followee_ids)).order_by("timestamp desc").limit(100).all()
     return render_template('home.html', messages=messages)
 
 ########################################################################
@@ -75,3 +77,15 @@ def add_header(r):
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
 
+##########################################
+##### PRACTICE JSON ROUTE
+##########################################
+@app.route('/json')
+def json_example():
+    example_message = Message.query.get(1)
+    message_dictionary = {
+        "id": example_message.id,
+        "text": example_message.text
+    }
+    return jsonify(message_dictionary)
+##########################################

@@ -37,3 +37,17 @@ def show(id, message_id):
         db.session.commit()
         return redirect(url_for('users.show', id=id))
     return render_template('messages/show.html', message=found_message)
+
+@messages_blueprint.route('/<int:message_id>/like', methods=["POST", "DELETE"])
+@login_required
+@ensure_correct_user
+def like(id, message_id):
+    message = Message.query.get_or_404(message_id)
+    # from IPython import embed; embed()
+    if request.method == "POST":
+        current_user.likes.append(message)
+    if request.method == b"DELETE":
+        current_user.likes.remove(message)
+    db.session.add(current_user)
+    db.session.commit()
+    return redirect(url_for('root', id=current_user.id))

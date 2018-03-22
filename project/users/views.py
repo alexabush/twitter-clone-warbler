@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for, Blueprint, flash
 from project.users.models import User
-from project.users.forms import UserForm, LoginForm
+from project.users.forms import UserForm, LoginForm, EditUserForm
 from project import db
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, logout_user, current_user, login_required
@@ -86,7 +86,7 @@ def logout():
 def edit(id):
     found_user = User.query.get_or_404(id)
     return render_template(
-        'users/edit.html', form=UserForm(), user=found_user)
+        'users/edit.html', form=EditUserForm(), user=found_user)
 
 ########################### MODIFIES FOLLOWING/FOLLOWER RELATIONSHIP ######################
 @users_blueprint.route(
@@ -127,12 +127,17 @@ def show(id):
             or current_user.get_id() != str(id)):
         return render_template('users/show.html', user=found_user)
     if request.method == b"PATCH":
-        form = UserForm(request.form)
-        if form.validate():
-            if User.authenticate(found_user.username, form.password.data):
-                found_user.username = form.username.data
-                found_user.email = form.email.data
-                found_user.image_url = form.image_url.data or None
+        edit_user_form = EditUserForm(request.form)
+        if edit_user_form.validate():
+            if User.authenticate(found_user.username, edit_user_form.password.data):
+                found_user.username = edit_user_form.username.data
+                found_user.email = edit_user_form.email.data
+                found_user.image_url = edit_user_form.image_url.data or None
+                found_user.first_name = edit_user_form.first_name.data or None
+                found_user.last_name = edit_user_form.last_name.data or None
+                found_user.location = edit_user_form.location.data or None
+                found_user.bio = edit_user_form.bio.data or None
+                found_user.header_image_url = edit_user_form.header_image_url.data or '/static/images/warbler-hero.jpg'
                 db.session.add(found_user)
                 db.session.commit()
                 return redirect(url_for('users.show', id=id))
@@ -140,7 +145,8 @@ def show(id):
                 'text': "Wrong password, please try again.",
                 'status': 'danger'
             })
-        return render_template('users/edit.html', form=form, user=found_user)
+        # from IPython import embed; embed()
+        return render_template('users/edit.html', form=edit_user_form, user=found_user)
     if request.method == b"DELETE":
         db.session.delete(found_user)
         db.session.commit()

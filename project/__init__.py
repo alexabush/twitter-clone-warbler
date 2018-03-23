@@ -77,15 +77,3 @@ def add_header(r):
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
 
-##########################################
-##### PRACTICE JSON ROUTE
-##########################################
-# @app.route('/json')
-# def json_example():
-#     example_message = Message.query.get(1)
-#     message_dictionary = {
-#         "id": example_message.id,
-#         "text": example_message.text
-#     }
-#     return jsonify(message_dictionary)
-##########################################

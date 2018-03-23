@@ -52,5 +52,6 @@ def like(id, message_id):
         current_user.likes.remove(message)
     db.session.add(current_user)
     db.session.commit()
-    # from IPython import embed; embed()
+    ##########################################
+    #This last part should be removed, but I need to return some kind of response
     return jsonify({'hi': 'hi'})

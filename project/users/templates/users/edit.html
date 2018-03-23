@@ -15,7 +15,7 @@
         {% endfor %}
       {% endif %}
       {{ form.email.label }}
-      {{ form.email(placeholder="What's your email?", value=form.data.email, class="form-control") }}
+      {{ form.email(placeholder="Email", value=form.data.email, class="form-control") }}
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
 
       {% if form.username.errors %}
@@ -38,7 +38,7 @@
         {% endfor %}
       {% endif %}
       {{ form.image_url.label }}
-      {{ form.image_url(placeholder="Optional: What image do you want to use?", value=form.data.image_url,
+      {{ form.image_url(placeholder="Profile Picture", value=form.data.image_url,
       class="form-control") }}
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.first_name.errors %} {% for error in form.first_name.errors %}
@@ -47,7 +47,7 @@
       </span>
       {% endfor %} {% endif %} 
       {{ form.first_name.label }}
-      {{ form.first_name(placeholder="What do you want your first_name to be?", value=form.data.first_name, class="form-control")
+      {{ form.first_name(placeholder="First Name", value='' if form.data.first_name == None, class="form-control")
       }} 
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.last_name.errors %} {% for error in form.last_name.errors %}
@@ -55,31 +55,29 @@
         {{ error }}
       </span>
       {% endfor %} {% endif %}  {{ form.last_name.label }}
-      {{ form.last_name(placeholder="What do you want your last_name to be?", value=form.data.last_name,
-      class="form-control") }} 
+      {{ form.last_name(placeholder="Last Name", value='' if form.data.last_name == None, class="form-control") }}
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.location.errors %} {% for error in form.location.errors %}
       <span class="text-danger">
         {{ error }}
       </span>
       {% endfor %} {% endif %} {{ form.location.label }}
- {{ form.location(placeholder="What do you want your location to be?", value=form.data.location, class="form-control")
-      }} 
+      {{ form.location(placeholder="Location", value='' if form.data.location == None, class="form-control") }}
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.bio.errors %} {% for error in form.bio.errors %}
       <span class="text-danger">
         {{ error }}
       </span>
       {% endfor %} {% endif %}  {{ form.bio.label }}
-      {{ form.bio(placeholder="What do you want your bio to be?", value=form.data.bio, class="form-control")
-      }} 
+       {{ form.bio(placeholder="Bio", value='' if form.data.bio == None, class="form-control") }}
+
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.header_image_url.errors %} {% for error in form.header_image_url.errors %}
       <span class="text-danger">
         {{ error }}
       </span>
       {% endfor %} {% endif %}  {{ form.header_image_url.label }}
-      {{ form.header_image_url(placeholder="What do you want your header_image_url to be?", value=form.data.header_image_url, class="form-control")
+      {{ form.header_image_url(placeholder="Header Image Url", value=form.data.header_image_url, class="form-control")
       }} 
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
 

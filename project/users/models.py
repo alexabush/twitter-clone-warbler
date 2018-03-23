@@ -52,6 +52,10 @@ class User(db.Model, UserMixin):
                  header_image_url='/static/images/warbler-hero.jpg'):
         self.email = email
         self.username = username
+        self.first_name = first_name
+        self.last_name = last_name
+        self.location = location
+        self.bio = bio
         self.image_url = image_url
         self.header_image_url = header_image_url
         self.password = bcrypt.generate_password_hash(password).decode('UTF-8') #hashing is taken care of here

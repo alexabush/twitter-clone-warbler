@@ -1,13 +1,4 @@
 $(function() {
-  // var $ajaxButton = $('.ajax_button');
-  // console.log('page has loaded');
-  // $ajaxButton.on('click', function() {
-  // console.log('clicked');
-  // $.getJSON('http://localhost:5000/json', function(message) {
-  // console.log(message.text);
-  // });
-  // });
-
   $('#messages').on('click', 'button', function(event) {
     const $clickedBtn = $(event.target);
     let ids = $clickedBtn.closest('li').data();

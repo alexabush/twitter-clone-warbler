@@ -44,6 +44,10 @@ class User(db.Model, UserMixin):
                  email,
                  username,
                  password,
+                 first_name='',
+                 last_name='',
+                 location='',
+                 bio='',
                  image_url='/static/images/default-pic.png',
                  header_image_url='/static/images/warbler-hero.jpg'):
         self.email = email

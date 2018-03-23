@@ -29,7 +29,7 @@ def new(id):
     return render_template('messages/new.html', form=MessageForm())
 
 
-@messages_blueprint.route('/<int:message_id>', methods=["GET", "DELETE"])
+@messages_blueprint.route('/<int:message_id>', methods=["GET","DELETE"])
 def show(id, message_id):
     found_message = Message.query.get_or_404(message_id)
     if request.method == b"DELETE" and current_user.id == id:
@@ -41,14 +41,14 @@ def show(id, message_id):
 ##########################################
 ### I'll need an update this so that my decorators validate correctly
 ##########################################
-@messages_blueprint.route('/<int:message_id>/like', methods=["POST", "DELETE"])
+@messages_blueprint.route('/<int:message_id>/like', methods=["POST","DELETE"])
 # @login_required
 # @ensure_correct_user
 def like(id, message_id):
     message = Message.query.get_or_404(message_id)
-    if request.method == "POST":
+    if request.method =="POST":
         current_user.likes.append(message)
-    if request.method == "DELETE":
+    if request.method =="DELETE":
         current_user.likes.remove(message)
     db.session.add(current_user)
     db.session.commit()

@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
         backref=db.backref('liked', lazy='dynamic'),
         lazy='dynamic')
     followers = db.relationship( #many-to-many, making link between two rows in the same table
-        "User",
+       "User",
         secondary=FollowersFollowee,
         primaryjoin=(FollowersFollowee.c.follower_id == id),
         secondaryjoin=(FollowersFollowee.c.followee_id == id),

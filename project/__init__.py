@@ -19,7 +19,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or "it's a secret"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or"it's a secret"
 toolbar = DebugToolbarExtension(app)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
@@ -74,9 +74,9 @@ def add_header(r):
     Add headers to both force latest IE rendering engine or Chrome Frame,
     and also to cache the rendered page for 10 minutes.
     """
-    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    r.headers["Pragma"] = "no-cache"
-    r.headers["Expires"] = "0"
+    r.headers["Cache-Control"] ="no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] ="no-cache"
+    r.headers["Expires"] ="0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
 

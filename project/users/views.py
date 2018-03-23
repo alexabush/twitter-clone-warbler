@@ -14,7 +14,7 @@ def ensure_correct_user(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         if kwargs.get('id') != current_user.id:
-            flash({'text': "Not Authorized", 'status': 'danger'})
+            flash({'text':"Not Authorized", 'status': 'danger'})
             return redirect(url_for('root'))
         return fn(*args, **kwargs)
 
@@ -33,10 +33,10 @@ def index():
     return render_template('users/index.html', users=users)
 
 
-@users_blueprint.route('/signup', methods=["GET", "POST"])
+@users_blueprint.route('/signup', methods=["GET","POST"])
 def signup():
     form = UserForm()
-    if request.method == "POST":
+    if request.method =="POST":
         if form.validate():
             try:
                 new_user = User(
@@ -49,18 +49,19 @@ def signup():
                 db.session.commit()
                 login_user(new_user)
             except IntegrityError as e:
-                flash({'text': "Username already taken", 'status': 'danger'})
+                flash({'text':"Username already taken", 'status': 'danger'})
                 return render_template('users/signup.html', form=form)
             return redirect(url_for('root'))
     return render_template('users/signup.html', form=form)
 
 
-@users_blueprint.route('/login', methods=["GET", "POST"])
+@users_blueprint.route('/login', methods=["GET","POST"])
 def login():
-    if current_user:
+    if current_user.is_anonymous == False:
+        from IPython import embed; embed()
         return redirect(url_for('root'))
     form = LoginForm()
-    if request.method == "POST":
+    if request.method =="POST":
         if form.validate():
             found_user = User.authenticate(form.username.data,
                                            form.password.data)
@@ -71,7 +72,7 @@ def login():
                     'status': 'success'
                 })
                 return redirect(url_for('root'))
-            flash({'text': "Invalid credentials.", 'status': 'danger'})
+            flash({'text':"Invalid credentials.", 'status': 'danger'})
             return render_template('users/login.html', form=form)
     return render_template('users/login.html', form=form)
 
@@ -80,7 +81,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash({'text': "You have successfully logged out.", 'status': 'success'})
+    flash({'text':"You have successfully logged out.", 'status': 'success'})
     return redirect(url_for('users.login'))
 
 
@@ -124,7 +125,7 @@ def followers(id):
     return render_template('users/followers.html', user=found_user)
 
 
-@users_blueprint.route('/<int:id>', methods=["GET", "PATCH", "DELETE"])
+@users_blueprint.route('/<int:id>', methods=["GET","PATCH","DELETE"])
 def show(id):
     found_user = User.query.get_or_404(id)
     if (request.method == 'GET' or current_user.is_anonymous
@@ -146,7 +147,7 @@ def show(id):
                 db.session.commit()
                 return redirect(url_for('users.show', id=id))
             flash({
-                'text': "Wrong password, please try again.",
+                'text':"Wrong password, please try again.",
                 'status': 'danger'
             })
         return render_template('users/edit.html', form=edit_user_form, user=found_user)

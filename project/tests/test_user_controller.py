@@ -12,9 +12,9 @@
 
 #     def setUp(self):
 #         db.create_all()
-#         user1 = User("Elie", "Schoppik")
-#         user2 = User("Tim", "Garcia")
-#         user3 = User("Matt", "Lane")
+#         user1 = User("Elie","Schoppik")
+#         user2 = User("Tim","Garcia")
+#         user3 = User("Matt","Lane")
 #         db.session.add_all([user1, user2, user3])
 #         message1 = Message("Hello Elie!!", 1)
 #         message2 = Message("Goodbye Elie!!", 1)

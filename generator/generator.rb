@@ -1,15 +1,15 @@
-require "faker"
-require "date"
-require "HTTParty"
-require "json"
-require "pry"
+require"faker"
+require"date"
+require"HTTParty"
+require"json"
+require"pry"
 
 $profile_urls = []
 
 for i in 0...100
-  $profile_urls.push "https://randomuser.me/api/portraits/lego/#{i}.jpg" unless i > 9
-  $profile_urls.push "https://randomuser.me/api/portraits/women/#{i}.jpg"
-  $profile_urls.push "https://randomuser.me/api/portraits/men/#{i}.jpg"
+  $profile_urls.push"https://randomuser.me/api/portraits/lego/#{i}.jpg" unless i > 9
+  $profile_urls.push"https://randomuser.me/api/portraits/women/#{i}.jpg"
+  $profile_urls.push"https://randomuser.me/api/portraits/men/#{i}.jpg"
 end
 
 $header_image_urls = []
@@ -225,7 +225,7 @@ HIPSTER
 
 def table_definitions
   tables = <<-SQLTABLES
-\\c "users-messages"
+\\c"users-messages"
 
 --CREATE TABLE users (id SERIAL PRIMARY KEY, email TEXT NOT NULL UNIQUE, username TEXT NOT NULL UNIQUE, image_url TEXT, password TEXT);
 
@@ -245,7 +245,7 @@ $hipster_arr = hip_sub.split(/\./).map(&:strip).map{|s| s[0...140]}
 
 def time_rand from = 1451649601.0, to = Time.now
   t = Time.at(from + rand * (to.to_f - from.to_f))
-  t.strftime "%Y-%m-%d %H:%M:%S"
+  t.strftime"%Y-%m-%d %H:%M:%S"
 end
 
 def random_user not_allowed = [-1]
@@ -265,7 +265,7 @@ def random_header_image
 end
 
 def insert_users
-  str = "INSERT INTO users (email, username, image_url, header_image_url, bio, location, password) VALUES "
+  str ="INSERT INTO users (email, username, image_url, header_image_url, bio, location, password) VALUES"
 
   users = []
   emails = []
@@ -284,10 +284,10 @@ def insert_users
     end
     users.push new_user
 
-    user_output.push "('#{new_email}', '#{new_user}', '#{random_profile_image}', '#{random_header_image}', 'Im super cool', '#{Faker::Address.city}', '$2b$12$s4gUmTg2tpwSH2J5T/YYeOdUKWYRO4AhTMgpQn.m49EIn5tL1Tzmu'),"
+    user_output.push"('#{new_email}', '#{new_user}', '#{random_profile_image}', '#{random_header_image}', 'Im super cool', '#{Faker::Address.city}', '$2b$12$s4gUmTg2tpwSH2J5T/YYeOdUKWYRO4AhTMgpQn.m49EIn5tL1Tzmu'),"
   end
 
-  user_output[-1] = user_output[-1].chomp(",") + ";"
+  user_output[-1] = user_output[-1].chomp(",") +";"
 
   str + user_output.join("\n")
 end
@@ -295,28 +295,28 @@ end
 $authors = {}
 
 def insert_messages
-  $hipster_arr = $hipster_arr.map {|s| s.strip.gsub("'", "''")}
+  $hipster_arr = $hipster_arr.map {|s| s.strip.gsub("'","''")}
 
   $authors = {}
   count = 0
 
   output = $hipster_arr.map do |s|
-    str = "('"
+    str ="('"
     str += s
-    str += "',"
-    str += "TIMESTAMP '"
+    str +="',"
+    str +="TIMESTAMP '"
     str += time_rand
-    str += "',"
+    str +="',"
     user = random_user
     str += user.to_s
-    str += "),"
+    str +="),"
     $authors[count] = user
     count += 1
     str
   end
 
-  output[-1] = output[-1].chomp(',') + ";"
-  insert_str = "INSERT INTO messages (text, timestamp, user_id) VALUES "
+  output[-1] = output[-1].chomp(',') +";"
+  insert_str ="INSERT INTO messages (text, timestamp, user_id) VALUES"
 
   insert_str + output.join("\n")
 
@@ -331,14 +331,14 @@ def insert_likes
     message_id = i + 1
     for j in 0...num_likes
       not_allowed.push(random_user not_allowed)
-      str = "(" + message_id.to_s + "," + not_allowed[-1].to_s + "),"
+      str ="(" + message_id.to_s +"," + not_allowed[-1].to_s +"),"
       likes.push str
     end
   end
 
-  likes[-1] = likes[-1].chomp(',') + ";"
+  likes[-1] = likes[-1].chomp(',') +";"
 
-  insert_str = "INSERT INTO likes (message_id, user_id) VALUES "
+  insert_str ="INSERT INTO likes (message_id, user_id) VALUES"
   insert_str + likes.join("\n")
 end
 
@@ -352,20 +352,20 @@ def insert_followers
     for j in 0...num_follow
       user = random_user followers
       followers.push user
-      followers_output.push("(" + i.to_s + "," + user.to_s + "),")
+      followers_output.push("(" + i.to_s +"," + user.to_s +"),")
     end
   end
 
-  followers_output[-1] = followers_output[-1].chomp(',') + ";"
+  followers_output[-1] = followers_output[-1].chomp(',') +";"
 
-  insert_str = "INSERT INTO follows (followee_id, follower_id) VALUES "
+  insert_str ="INSERT INTO follows (followee_id, follower_id) VALUES"
 
   insert_str + followers_output.join("\n")
 end
 
 def all_inserts
   # removed insert_likes
-  insert_users + "\n\n" + insert_messages + "\n\n" + insert_followers
+  insert_users +"\n\n" + insert_messages +"\n\n" + insert_followers
 end
 
 puts all_inserts

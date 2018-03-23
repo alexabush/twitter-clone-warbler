@@ -27,11 +27,9 @@ def index():
     users = None
     if search is None or search == '':
         users = User.query.all()
-        #The exclusion code was breaking things
-        # users = User.query.filter(User.username != current_user.username).all()
     else:
-        # users = User.query.filter(User.username.like("%%%s%%" % search)).all()
-        users = User.query.filter(and_(User.username.like("%%%s%%" % search),User.username != current_user.username)).all()
+        users = User.query.filter(User.username.like("%%%s%%" % search)).all()
+        # users = User.query.filter(and_(User.username.like("%%%s%%" % search),User.username != current_user.username)).all()
     return render_template('users/index.html', users=users)
 
 
@@ -59,7 +57,6 @@ def signup():
 
 @users_blueprint.route('/login', methods=["GET", "POST"])
 def login():
-    # from IPython import embed; embed()
     if current_user:
         return redirect(url_for('root'))
     form = LoginForm()

@@ -80,12 +80,12 @@ def add_header(r):
 ##########################################
 ##### PRACTICE JSON ROUTE
 ##########################################
-@app.route('/json')
-def json_example():
-    example_message = Message.query.get(1)
-    message_dictionary = {
-        "id": example_message.id,
-        "text": example_message.text
-    }
-    return jsonify(message_dictionary)
+# @app.route('/json')
+# def json_example():
+#     example_message = Message.query.get(1)
+#     message_dictionary = {
+#         "id": example_message.id,
+#         "text": example_message.text
+#     }
+#     return jsonify(message_dictionary)
 ##########################################

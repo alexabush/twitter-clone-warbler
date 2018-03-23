@@ -37,7 +37,7 @@
   <div class="col-lg-6 col-md-12">
     <ul class="list-group" id="messages">
       {% for message in messages %}
-      <li class="list-group-item" id="{{ message.id }}">
+      <li class="list-group-item" data-user-id="{{ current_user.id }}" data-message-id="{{ message.id }}">
         {# <a href="{{ url_for('messages.show', id=message.user.id, message_id=message.id ) }}" class="message-link"/> #}
         <a href="{{ url_for('messages.show', id=message.user.id, message_id=message.id ) }}" class=""/>
         <a href="{{ url_for('users.show', id=message.user.id) }}">
@@ -48,10 +48,7 @@
           <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
           <p>{{ message.text }}</p>
           
-
-          <form id='like-btn' action="#">
-            <input type="submit" value="Whatevs" class="btn btn-primary btn-sm">
-          </form>
+        <button class="like-btn btn btn-primary btn-sm">Like</button>
 
          {# {% if current_user.likes_message(message.id) %}
           <form method="POST" action="{{url_for('messages.like', id=current_user.id, message_id=message.id)}}?_method=DELETE">
@@ -64,8 +61,6 @@
           {% endif %}
           #}
 
-
-          <button class="btn btn-primary ajax_button">Make request</button>
         </div>
       </li>
       {% endfor %}

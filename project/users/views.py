@@ -26,8 +26,9 @@ def index():
     search = request.args.get('q')
     users = None
     if search is None or search == '':
-        # users = User.query.all()
-        users = User.query.filter(User.username != current_user.username).all()
+        users = User.query.all()
+        #The exclusion code was breaking things
+        # users = User.query.filter(User.username != current_user.username).all()
     else:
         # users = User.query.filter(User.username.like("%%%s%%" % search)).all()
         users = User.query.filter(and_(User.username.like("%%%s%%" % search),User.username != current_user.username)).all()
@@ -151,7 +152,6 @@ def show(id):
                 'text': "Wrong password, please try again.",
                 'status': 'danger'
             })
-        # from IPython import embed; embed()
         return render_template('users/edit.html', form=edit_user_form, user=found_user)
     if request.method == b"DELETE":
         db.session.delete(found_user)

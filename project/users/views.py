@@ -3,6 +3,7 @@ from project.users.models import User
 from project.users.forms import UserForm, LoginForm, EditUserForm
 from project import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import and_
 from flask_login import login_user, logout_user, current_user, login_required
 from functools import wraps
 
@@ -23,18 +24,13 @@ def ensure_correct_user(fn):
 @users_blueprint.route('/')
 def index():
     search = request.args.get('q')
-    # from IPython import embed; embed()
-    # print('im in get')
     users = None
     if search is None or search == '':
-        # print('search none or empty str')
-        # from IPython import embed; embed()
-        users = User.query.all()
+        # users = User.query.all()
+        users = User.query.filter(User.username != current_user.username).all()
     else:
-        # print('else')
-        # from IPython import embed; embed()
-        users = User.query.filter(User.username.like("%%%s%%" % search)).all()
-        # from IPython import embed; embed()
+        # users = User.query.filter(User.username.like("%%%s%%" % search)).all()
+        users = User.query.filter(and_(User.username.like("%%%s%%" % search),User.username != current_user.username)).all()
     return render_template('users/index.html', users=users)
 
 
@@ -62,6 +58,9 @@ def signup():
 
 @users_blueprint.route('/login', methods=["GET", "POST"])
 def login():
+    # from IPython import embed; embed()
+    if current_user:
+        return redirect(url_for('root'))
     form = LoginForm()
     if request.method == "POST":
         if form.validate():

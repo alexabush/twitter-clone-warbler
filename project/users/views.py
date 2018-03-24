@@ -155,7 +155,7 @@ def show(id):
         found_user.name = new_name
         db.session.add(found_user)
         db.session.commit()
-        return jsonify({'firstName': f'{new_name}'})
+        return jsonify({'name': f'{new_name}'})
     if request.method == b"DELETE":
         db.session.delete(found_user)
         db.session.commit()

@@ -12,8 +12,7 @@ class UserForm(FlaskForm):
     # confirm_password = PasswordField('password', validators=[Length(min=6)])
 
 class EditUserForm(FlaskForm):
-    first_name = StringField('First Name')
-    last_name = StringField('Last Name')
+    name = StringField('Name')
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     image_url = StringField('Profile Image Url')

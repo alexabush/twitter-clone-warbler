@@ -40,21 +40,15 @@
       {{ form.image_url.label }}
       {{ form.image_url(placeholder="Profile Picture", class="form-control") }}
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
-       {% if form.first_name.errors %} {% for error in form.first_name.errors %}
+       {% if form.name.errors %} {% for error in form.name.errors %}
       <span class="text-danger">
         {{ error }}
       </span>
       {% endfor %} {% endif %} 
-      {{ form.first_name.label }}
-      {{ form.first_name(placeholder="First Name", class="form-control")
+      {{ form.name.label }}
+      {{ form.name(placeholder="First Name", class="form-control")
       }} 
-<!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
-       {% if form.last_name.errors %} {% for error in form.last_name.errors %}
-      <span class="text-danger">
-        {{ error }}
-      </span>
-      {% endfor %} {% endif %}  {{ form.last_name.label }}
-      {{ form.last_name(placeholder="Last Name", class="form-control") }}
+
 <!--  --> <!--  --> <!--  --> <!--  --> <!--  -->
        {% if form.location.errors %} {% for error in form.location.errors %}
       <span class="text-danger">

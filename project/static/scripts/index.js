@@ -20,4 +20,20 @@ $(function() {
       });
     }
   });
+
+  $('#nameForm').on('submit', function(event) {
+    event.preventDefault();
+    let userId = Object.values($(event.target).data())[0];
+    let name = $(this).serializeArray()[0].value;
+    $.ajax({
+      url: `http://localhost:5000/users/${userId}`,
+      method: 'PATCH',
+      data: {
+        name
+      }
+    }).then(function(res) {
+      var $form = $('input[name="nameInput"]');
+      $form.val(res.firstName);
+    });
+  });
 });

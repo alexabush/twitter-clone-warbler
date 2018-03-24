@@ -18,8 +18,7 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Text, unique=True)
-    first_name = db.Column(db.Text)
-    last_name = db.Column(db.Text)
+    name = db.Column(db.Text)
     username = db.Column(db.Text, unique=True)
     image_url = db.Column(db.Text)
     header_image_url = db.Column(db.Text)
@@ -44,16 +43,14 @@ class User(db.Model, UserMixin):
                  email,
                  username,
                  password,
-                 first_name='',
-                 last_name='',
+                 name='',
                  location='',
                  bio='',
                  image_url='/static/images/default-pic.png',
                  header_image_url='/static/images/warbler-hero.jpg'):
         self.email = email
         self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
+        self.name = name
         self.location = location
         self.bio = bio
         self.image_url = image_url

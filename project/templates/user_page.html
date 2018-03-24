@@ -54,14 +54,13 @@
 <div class="row">
   <div class="col-sm-3">
     <h4 id="sidebar-username">@{{ user.username }}</h4>
+    
     <p>
-    {% if user.first_name %}
-      {{ user.first_name }}
-    {% endif %}
-
-    {% if user.last_name %}
-      {{ user.last_name }}
-    {% endif %}
+      {% if user.name %}
+      <form id="nameForm" class="form-inline" data-user-id="{{ user.id }}">
+        <input name="nameInput" type="text" value="{{ user.name }}" />
+      </form>    
+      {% endif %}
     </p>
     
     <p>

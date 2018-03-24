@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, Blueprint, flash
+from flask import redirect, render_template, request, url_for, Blueprint, flash, jsonify
 from project.users.models import User
 from project.users.forms import UserForm, LoginForm, EditUserForm
 from project import db
@@ -138,8 +138,7 @@ def show(id):
                 found_user.username = edit_user_form.username.data
                 found_user.email = edit_user_form.email.data
                 found_user.image_url = edit_user_form.image_url.data or None
-                found_user.first_name = edit_user_form.first_name.data or None
-                found_user.last_name = edit_user_form.last_name.data or None
+                found_user.name = edit_user_form.name.data or None
                 found_user.location = edit_user_form.location.data or None
                 found_user.bio = edit_user_form.bio.data or None
                 found_user.header_image_url = edit_user_form.header_image_url.data or '/static/images/warbler-hero.jpg'
@@ -151,6 +150,12 @@ def show(id):
                 'status': 'danger'
             })
         return render_template('users/edit.html', form=edit_user_form, user=found_user)
+    if request.method == "PATCH":
+        new_name = request.form.get('name')
+        found_user.name = new_name
+        db.session.add(found_user)
+        db.session.commit()
+        return jsonify({'firstName': f'{new_name}'})
     if request.method == b"DELETE":
         db.session.delete(found_user)
         db.session.commit()
